@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Council Attendance</title>
+<title>Council Attendance — Ilagan Council 3705</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
 
@@ -38,13 +38,11 @@
     padding: 0 20px 60px;
   }
 
-  /* ---------- header / badge ---------- */
   header.crest{
     background: linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
     padding: 40px 20px 34px;
     text-align:center;
     border-bottom: 5px solid var(--gold);
-    position: relative;
   }
   .badge{
     width: 92px; height: 92px;
@@ -54,11 +52,7 @@
     box-shadow: 0 0 0 3px var(--navy-deep), 0 0 0 5px var(--gold), 0 4px 14px rgba(0,0,0,0.35);
     background: #fff;
   }
-  .badge img{
-    width:100%; height:100%;
-    object-fit: cover;
-    display:block;
-  }
+  .badge img{ width:100%; height:100%; object-fit: cover; display:block; }
   header.crest h1{
     font-family:'Cormorant Garamond', serif;
     font-weight: 700;
@@ -78,35 +72,6 @@
     margin: 14px 0 0;
     color: #cfd9ea;
     font-size: 14.5px;
-  }
-
-  /* ---------- tabs ---------- */
-  .tabbar{
-    display:flex;
-    justify-content:center;
-    gap: 6px;
-    margin: -18px 0 0;
-    position: relative;
-    z-index: 2;
-  }
-  .tabbar button{
-    font-family:'Inter', sans-serif;
-    font-size: 13px;
-    font-weight:600;
-    letter-spacing: 0.4px;
-    padding: 11px 22px;
-    border: 1px solid var(--line);
-    background: var(--paper);
-    color: var(--muted);
-    cursor:pointer;
-    border-radius: 3px 3px 0 0;
-    border-bottom: none;
-    transition: color .15s ease, background .15s ease;
-  }
-  .tabbar button.active{
-    background: var(--navy);
-    color: var(--gold-light);
-    border-color: var(--navy);
   }
 
   main{ padding-top: 26px; }
@@ -141,13 +106,7 @@
     color: var(--royal);
     margin-bottom: 6px;
   }
-  .field .opt{
-    color: var(--muted);
-    font-weight:500;
-    text-transform: none;
-    letter-spacing: 0;
-  }
-  .field input, .field select{
+  .field input{
     width:100%;
     padding: 11px 12px;
     border: 1px solid var(--line);
@@ -157,7 +116,7 @@
     background: #fff;
     color: var(--ink);
   }
-  .field input:focus, .field select:focus{
+  .field input:focus{
     outline: none;
     border-color: var(--gold);
     box-shadow: 0 0 0 3px rgba(201,162,39,0.18);
@@ -189,6 +148,9 @@
   }
   .sig-block input:focus{ box-shadow: none; border-bottom-color: var(--gold); }
   .sig-note{ font-size: 11.5px; color: var(--muted); margin-top: 6px; }
+
+  /* honeypot field, hidden from real people */
+  .hp{ position:absolute; left:-9999px; top:-9999px; }
 
   button.submit{
     margin-top: 8px;
@@ -249,170 +211,14 @@
     border-radius: 3px;
     cursor:pointer;
   }
-
-  /* ---------- admin ---------- */
-  .admin-top{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap: 10px;
-    margin-bottom: 18px;
-    flex-wrap: wrap;
-  }
-  .admin-top .count{
-    font-family:'Cormorant Garamond', serif;
-    font-size: 20px;
-    color: var(--navy);
-  }
-  .admin-top .count b{ color: var(--gold); font-size: 24px; }
-  .admin-actions{ display:flex; gap: 8px; }
-  .admin-actions button{
-    font-size: 12px;
-    font-weight:600;
-    padding: 8px 13px;
-    border-radius: 3px;
-    border: 1px solid var(--line);
-    background: #fff;
-    color: var(--navy);
-    cursor:pointer;
-  }
-  .admin-actions button.primary{
-    background: var(--navy);
-    color: var(--gold-light);
-    border-color: var(--navy);
-  }
-  .admin-actions button.danger{
-    background: #fff;
-    color: var(--red);
-    border-color: var(--red);
-  }
-  .admin-actions button.danger:hover{
-    background: var(--red);
-    color: #fff;
-  }
-  .admin-actions button:disabled{
-    opacity: .55;
-    cursor: default;
-  }
-
-  table.log{
-    width:100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  table.log th{
-    text-align:left;
-    font-size: 10.5px;
-    letter-spacing: 0.6px;
-    color: var(--paper);
-    background: var(--royal);
-    padding: 9px 10px;
-    position: sticky; top:0;
-  }
-  table.log td{
-    padding: 9px 10px;
-    border-bottom: 1px solid var(--line);
-    vertical-align: top;
-  }
-  table.log tr:nth-child(even) td{ background: #fbf9f2; }
-  table.log td.name{ font-weight:600; color: var(--navy); }
-  table.log td.time{ font-family: 'Inter', monospace; font-size: 11.5px; color: var(--muted); white-space: nowrap; }
-  table.log tr.flagged td{ background: #fdf1e7; }
-  table.log tr.flagged td.time{ color: var(--red); }
-  .flag-badge{
-    display:inline-block;
-    margin-top: 4px;
-    font-family: 'Inter', sans-serif;
-    font-size: 10px;
-    font-weight:700;
-    letter-spacing: 0.3px;
-    color: var(--red);
+  .error-msg{
+    display:none;
     background: #fbe2e2;
     border: 1px solid rgba(122,31,31,0.3);
-    border-radius: 3px;
-    padding: 2px 6px;
-    white-space: nowrap;
-  }
-  .table-scroll{ overflow-x:auto; border: 1px solid var(--line); border-radius: 3px; }
-
-  .empty{
-    text-align:center;
-    padding: 40px 10px;
-    color: var(--muted);
-    font-size: 13.5px;
-  }
-
-  /* ---------- pin gate ---------- */
-  .pin-overlay{
-    display:none;
-    position: fixed;
-    inset: 0;
-    background: rgba(11,37,69,0.55);
-    align-items:center;
-    justify-content:center;
-    z-index: 50;
-    padding: 20px;
-  }
-  .pin-box{
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: 5px;
-    padding: 28px 26px;
-    max-width: 320px;
-    width:100%;
-    text-align:center;
-  }
-  .pin-box h3{
-    font-family:'Cormorant Garamond', serif;
-    font-size: 21px;
-    color: var(--navy);
-    margin: 0 0 6px;
-  }
-  .pin-box p{
-    font-size: 12.5px;
-    color: var(--muted);
-    margin: 0 0 16px;
-  }
-  .pin-box input{
-    width: 100%;
-    text-align:center;
-    letter-spacing: 6px;
-    font-size: 20px;
-    padding: 11px 12px;
-    border: 1px solid var(--line);
-    border-radius: 3px;
-    font-family:'Inter', sans-serif;
-    margin-bottom: 12px;
-  }
-  .pin-box input:focus{
-    outline:none;
-    border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(201,162,39,0.18);
-  }
-  .pin-actions{ display:flex; gap: 8px; }
-  .pin-actions button{
-    flex:1;
-    padding: 10px;
-    border-radius: 3px;
-    font-size: 13px;
-    font-weight:600;
-    cursor:pointer;
-  }
-  .pin-actions .cancel{
-    background: #fff;
-    border: 1px solid var(--line);
-    color: var(--muted);
-  }
-  .pin-actions .unlock{
-    background: var(--navy);
-    border: 1px solid var(--navy);
-    color: var(--gold-light);
-  }
-  .pin-error{
-    font-size: 12px;
     color: var(--red);
-    min-height: 16px;
-    margin: -6px 0 10px;
+    font-size: 13px;
+    padding: 10px 12px;
+    border-radius: 3px;
   }
 
   footer{
@@ -439,49 +245,49 @@
 </header>
 
 <div class="wrap">
-  <div class="tabbar">
-    <button id="tabSignin" class="active">Sign In</button>
-    <button id="tabAdmin">Admin Log</button>
-  </div>
-
   <main>
-    <!-- SIGN IN -->
     <section id="viewSignin" class="card">
       <h2>Member Sign-In</h2>
-      <p class="hint">Fill in your details below. Your sign-in time is recorded automatically the moment you submit.</p>
+      <p class="hint">Fill in your details below and submit. Your sign-in is written straight into the council's attendance sheet, along with the exact time you signed in.</p>
 
       <form id="signinForm">
+        <!-- form fields -->
+
         <div class="field">
           <label for="fName">Name</label>
-          <input id="fName" type="text" placeholder="Full name" required>
+          <input id="fName" name="Name" type="text" placeholder="Full name" required>
         </div>
 
         <div class="field">
           <label for="fAddress">Address</label>
-          <input id="fAddress" type="text" placeholder="Home address">
+          <input id="fAddress" name="Address" type="text" placeholder="Home address">
         </div>
 
         <div class="row2">
           <div class="field">
             <label for="fCouncil">Council / Visitor</label>
-            <input id="fCouncil" type="text" placeholder="e.g. Council 1234">
+            <input id="fCouncil" name="Council/Visitor" type="text" placeholder="e.g. Council 1234">
           </div>
           <div class="field">
             <label for="fPosition">Position</label>
-            <input id="fPosition" type="text" placeholder="e.g. Grand Knight">
+            <input id="fPosition" name="Position" type="text" placeholder="e.g. Grand Knight">
           </div>
         </div>
 
         <div class="field">
           <label for="fContact">Contact Number</label>
-          <input id="fContact" type="tel" placeholder="09XX XXX XXXX">
+          <input id="fContact" name="Contact Number" type="tel" placeholder="09XX XXX XXXX">
         </div>
 
         <div class="sig-block">
           <label for="fSignature">Signature — type your full name to confirm</label>
-          <input id="fSignature" type="text" placeholder="Your name" required>
+          <input id="fSignature" name="Signature" type="text" placeholder="Your name" required>
           <p class="sig-note">Typing your name here serves as your digital signature for this record.</p>
         </div>
+
+        <input type="hidden" name="Time Logged" id="fTime">
+
+        <div class="error-msg" id="errorMsg">Could not send your sign-in. Please check your connection and try again.</div>
 
         <button type="submit" class="submit" id="submitBtn">Sign In Now</button>
       </form>
@@ -496,119 +302,14 @@
         <button class="again" id="signAnotherBtn">Sign in another member</button>
       </div>
     </section>
-
-    <!-- ADMIN -->
-    <section id="viewAdmin" class="card" style="display:none;">
-      <h2>Attendance Log</h2>
-      <p class="hint">Live record of every member who has signed in, in the order they arrived. Rows marked <span class="flag-badge" style="margin-top:0;">&#9888; date mismatch</span> came from a device whose clock doesn't match today — worth a quick double-check. When the meeting ends, use "Archive &amp; Clear" to save this list and reset the page for next time.</p>
-
-      <div class="admin-top">
-        <div class="count">Present: <b id="attendeeCount">0</b></div>
-        <div class="admin-actions">
-          <button id="refreshBtn">Refresh</button>
-          <button id="exportBtn" class="primary">Export CSV</button>
-          <button id="archiveBtn" class="danger">Archive &amp; Clear</button>
-        </div>
-      </div>
-
-      <div class="table-scroll">
-        <table class="log">
-          <thead>
-            <tr>
-              <th>No.</th>
-              <th>Time Logged</th>
-              <th>Name</th>
-              <th>Address</th>
-              <th>Council / Visitor</th>
-              <th>Position</th>
-              <th>Contact No.</th>
-              <th>Signature</th>
-            </tr>
-          </thead>
-          <tbody id="logBody"></tbody>
-        </table>
-      </div>
-      <div class="empty" id="emptyState" style="display:none;">No one has signed in yet.</div>
-    </section>
   </main>
 
   <footer>Knights of Columbus &middot; Ilagan Council 3705 &middot; Digital Attendance Record</footer>
 </div>
 
-<div class="pin-overlay" id="pinOverlay">
-  <div class="pin-box">
-    <h3>Admin Access</h3>
-    <p>Enter the council PIN to view the attendance log.</p>
-    <input type="password" inputmode="numeric" maxlength="6" id="pinInput" placeholder="&bull;&bull;&bull;&bull;">
-    <div class="pin-error" id="pinError"></div>
-    <div class="pin-actions">
-      <button class="cancel" id="pinCancel">Cancel</button>
-      <button class="unlock" id="pinUnlock">Unlock</button>
-    </div>
-  </div>
-</div>
-
 <script>
   const todayDate = document.getElementById('todayDate');
   todayDate.textContent = new Date().toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' });
-
-  const tabSignin = document.getElementById('tabSignin');
-  const tabAdmin = document.getElementById('tabAdmin');
-  const viewSignin = document.getElementById('viewSignin');
-  const viewAdmin = document.getElementById('viewAdmin');
-
-  const ADMIN_PIN = '1524'; // change this to whatever code you want to give the officers
-  let adminUnlocked = false;
-
-  const pinOverlay = document.getElementById('pinOverlay');
-  const pinInput = document.getElementById('pinInput');
-  const pinError = document.getElementById('pinError');
-  const pinCancel = document.getElementById('pinCancel');
-  const pinUnlock = document.getElementById('pinUnlock');
-
-  tabSignin.onclick = () => switchTab('signin');
-  tabAdmin.onclick = () => {
-    if(adminUnlocked){
-      switchTab('admin');
-    }else{
-      openPinPrompt();
-    }
-  };
-
-  function openPinPrompt(){
-    pinError.textContent = '';
-    pinInput.value = '';
-    pinOverlay.style.display = 'flex';
-    setTimeout(() => pinInput.focus(), 50);
-  }
-  function closePinPrompt(){
-    pinOverlay.style.display = 'none';
-  }
-  pinCancel.onclick = closePinPrompt;
-  pinOverlay.onclick = (e) => { if(e.target === pinOverlay) closePinPrompt(); };
-
-  function attemptUnlock(){
-    if(pinInput.value === ADMIN_PIN){
-      adminUnlocked = true;
-      closePinPrompt();
-      switchTab('admin');
-    }else{
-      pinError.textContent = 'Incorrect PIN. Try again.';
-      pinInput.value = '';
-      pinInput.focus();
-    }
-  }
-  pinUnlock.onclick = attemptUnlock;
-  pinInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') attemptUnlock(); });
-
-  function switchTab(which){
-    const isSignin = which === 'signin';
-    tabSignin.classList.toggle('active', isSignin);
-    tabAdmin.classList.toggle('active', !isSignin);
-    viewSignin.style.display = isSignin ? 'block' : 'none';
-    viewAdmin.style.display = isSignin ? 'none' : 'block';
-    if(!isSignin) loadLog();
-  }
 
   const form = document.getElementById('signinForm');
   const submitBtn = document.getElementById('submitBtn');
@@ -616,43 +317,50 @@
   const confirmName = document.getElementById('confirmName');
   const confirmStamp = document.getElementById('confirmStamp');
   const signAnotherBtn = document.getElementById('signAnotherBtn');
+  const errorMsg = document.getElementById('errorMsg');
+  const fTime = document.getElementById('fTime');
+
+  const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwssat3bz0Q-UqIpEG2soW7gT9srv70K96u4rqh0MxGj_s0k1YgMrc55NSQjBTIKsRNVQ/exec';
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    errorMsg.style.display = 'none';
     submitBtn.disabled = true;
     submitBtn.textContent = 'Signing in…';
 
     const now = new Date();
-    const entry = {
-      name: document.getElementById('fName').value.trim(),
-      address: document.getElementById('fAddress').value.trim(),
-      council: document.getElementById('fCouncil').value.trim(),
-      position: document.getElementById('fPosition').value.trim(),
-      contact: document.getElementById('fContact').value.trim(),
-      signature: document.getElementById('fSignature').value.trim(),
-      timestampISO: now.toISOString(),
-      timestampDisplay: now.toLocaleString(undefined, {
-        year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit'
-      })
-    };
+    const displayStamp = now.toLocaleString(undefined, {
+      year:'numeric', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit'
+    });
+    fTime.value = displayStamp;
 
-    const key = 'attendance:' + now.getTime() + '-' + Math.random().toString(36).slice(2,8);
+    const nameVal = document.getElementById('fName').value.trim();
+
+    const params = new URLSearchParams();
+    params.append('timeLogged', displayStamp);
+    params.append('name', nameVal);
+    params.append('address', document.getElementById('fAddress').value.trim());
+    params.append('council', document.getElementById('fCouncil').value.trim());
+    params.append('position', document.getElementById('fPosition').value.trim());
+    params.append('contact', document.getElementById('fContact').value.trim());
+    params.append('signature', document.getElementById('fSignature').value.trim());
 
     try{
-      const result = await window.storage.set(key, JSON.stringify(entry), true);
-      if(!result){
-        alert('Something went wrong saving your sign-in. Please try again.');
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Sign In Now';
-        return;
-      }
-      confirmName.textContent = entry.name;
-      confirmStamp.textContent = entry.timestampDisplay;
+      // Apps Script web apps don't send CORS headers, so the response is opaque —
+      // no-cors lets the request go through without fetch throwing on that.
+      await fetch(SHEET_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: params
+      });
+
+      confirmName.textContent = nameVal;
+      confirmStamp.textContent = displayStamp;
       form.style.display = 'none';
       confirmBlock.style.display = 'block';
     }catch(err){
-      console.error('Storage error', err);
-      alert('Could not save your sign-in. Please check your connection and try again.');
+      console.error('Submit error', err);
+      errorMsg.style.display = 'block';
     }finally{
       submitBtn.disabled = false;
       submitBtn.textContent = 'Sign In Now';
@@ -663,146 +371,6 @@
     form.reset();
     form.style.display = 'flex';
     confirmBlock.style.display = 'none';
-  };
-
-  // ---------- admin ----------
-  const logBody = document.getElementById('logBody');
-  const attendeeCount = document.getElementById('attendeeCount');
-  const emptyState = document.getElementById('emptyState');
-  const refreshBtn = document.getElementById('refreshBtn');
-  const exportBtn = document.getElementById('exportBtn');
-
-  let cachedEntries = [];
-
-  async function loadLog(){
-    logBody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#6b6558;">Loading…</td></tr>';
-    try{
-      const listing = await window.storage.list('attendance:', true);
-      const keys = (listing && listing.keys) ? listing.keys : [];
-
-      if(keys.length === 0){
-        cachedEntries = [];
-        renderLog();
-        return;
-      }
-
-      const entries = [];
-      for(const k of keys){
-        try{
-          const res = await window.storage.get(k, true);
-          if(res && res.value){
-            const parsed = JSON.parse(res.value);
-            parsed._key = k;
-            entries.push(parsed);
-          }
-        }catch(err){
-          // skip unreadable entry
-        }
-      }
-
-      entries.sort((a,b) => new Date(a.timestampISO) - new Date(b.timestampISO));
-      cachedEntries = entries;
-      renderLog();
-    }catch(err){
-      console.error('Load error', err);
-      logBody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#7a1f1f;">Could not load the log. Try refresh.</td></tr>';
-    }
-  }
-
-  function renderLog(){
-    attendeeCount.textContent = cachedEntries.length;
-    if(cachedEntries.length === 0){
-      logBody.innerHTML = '';
-      emptyState.style.display = 'block';
-      return;
-    }
-    emptyState.style.display = 'none';
-
-    const todayStr = new Date().toDateString();
-
-    logBody.innerHTML = cachedEntries.map((e, i) => {
-      const entryDate = e.timestampISO ? new Date(e.timestampISO) : null;
-      const isMismatch = entryDate && entryDate.toDateString() !== todayStr;
-      const flagBadge = isMismatch
-        ? `<span class="flag-badge" title="This device's clock reported a different date than today (${escapeHtml(todayStr)}). Double-check this entry.">&#9888; date mismatch</span>`
-        : '';
-      return `
-      <tr class="${isMismatch ? 'flagged' : ''}">
-        <td>${i+1}</td>
-        <td class="time">${escapeHtml(e.timestampDisplay || '')}${flagBadge}</td>
-        <td class="name">${escapeHtml(e.name || '')}</td>
-        <td>${escapeHtml(e.address || '')}</td>
-        <td>${escapeHtml(e.council || '')}</td>
-        <td>${escapeHtml(e.position || '')}</td>
-        <td>${escapeHtml(e.contact || '')}</td>
-        <td style="font-style:italic;">${escapeHtml(e.signature || '')}</td>
-      </tr>
-    `;
-    }).join('');
-  }
-
-  function escapeHtml(str){
-    return String(str)
-      .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
-      .replaceAll('"','&quot;').replaceAll("'",'&#39;');
-  }
-
-  refreshBtn.onclick = loadLog;
-
-  function downloadCSV(){
-    const headers = ['No.','Time Logged','Name','Address','Council/Visitor','Position','Contact Number','Signature'];
-    const rows = cachedEntries.map((e,i) => [
-      i+1, e.timestampDisplay, e.name, e.address, e.council, e.position, e.contact, e.signature
-    ]);
-    const csv = [headers, ...rows]
-      .map(r => r.map(v => `"${String(v ?? '').replaceAll('"','""')}"`).join(','))
-      .join('\n');
-    const blob = new Blob([csv], {type:'text/csv'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'council-attendance-' + new Date().toISOString().slice(0,10) + '.csv';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-  }
-
-  exportBtn.onclick = () => {
-    if(cachedEntries.length === 0){ alert('No entries to export yet.'); return; }
-    downloadCSV();
-  };
-
-  const archiveBtn = document.getElementById('archiveBtn');
-  archiveBtn.onclick = async () => {
-    if(cachedEntries.length === 0){ alert('No entries to archive yet.'); return; }
-    const ok = confirm(
-      'This will download today\'s ' + cachedEntries.length + ' sign-in(s) as a CSV, ' +
-      'then clear the log so the page is ready for the next meeting.\n\nContinue?'
-    );
-    if(!ok) return;
-
-    archiveBtn.disabled = true;
-    archiveBtn.textContent = 'Archiving…';
-
-    downloadCSV();
-
-    let failed = 0;
-    for(const e of cachedEntries){
-      try{
-        await window.storage.delete(e._key, true);
-      }catch(err){
-        failed++;
-      }
-    }
-
-    archiveBtn.disabled = false;
-    archiveBtn.textContent = 'Archive & Clear';
-
-    if(failed > 0){
-      alert('Archived, but ' + failed + ' entr' + (failed === 1 ? 'y' : 'ies') + ' could not be cleared. Tap Refresh and try again.');
-    }
-    loadLog();
   };
 </script>
 </body>
