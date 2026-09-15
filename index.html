@@ -149,6 +149,53 @@
     border-color: var(--gold);
     box-shadow: 0 0 0 3px rgba(201,162,39,0.18);
   }
+
+  .event-toggle{
+    display:flex;
+    gap: 10px;
+  }
+  .event-toggle input[type="radio"]{
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .event-toggle .opt{
+    flex: 1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 8px;
+    padding: 13px 10px;
+    border: 1.5px solid var(--line);
+    border-radius: 4px;
+    background: #fff;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+  }
+  .event-toggle .opt .icon{
+    font-size: 15px;
+    line-height:1;
+  }
+  .event-toggle .opt:hover{
+    border-color: var(--gold-light);
+    color: var(--navy);
+  }
+  .event-toggle input[type="radio"]:checked + .opt{
+    background: linear-gradient(180deg, var(--navy) 0%, var(--royal) 100%);
+    border-color: var(--gold);
+    color: var(--gold-light);
+    box-shadow: 0 3px 10px rgba(11,37,69,0.28);
+  }
+  .event-toggle input[type="radio"]:focus-visible + .opt{
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
   .row2{ display:flex; gap: 14px; }
   .row2 .field{ flex:1; }
 
@@ -283,12 +330,14 @@
         <!-- form fields -->
 
         <div class="field">
-          <label for="fEventType">Event Type</label>
-          <select id="fEventType" name="Event Type" required>
-            <option value="" disabled selected>Select event type</option>
-            <option value="Council Meeting">Council Meeting</option>
-            <option value="Activity">Activity</option>
-          </select>
+          <label>Event Type</label>
+          <div class="event-toggle" id="fEventType">
+            <input type="radio" id="evtMeeting" name="eventTypeRadio" value="Council Meeting">
+            <label for="evtMeeting" class="opt"><span class="icon">&#9878;</span> Council Meeting</label>
+
+            <input type="radio" id="evtActivity" name="eventTypeRadio" value="Activity">
+            <label for="evtActivity" class="opt"><span class="icon">&#9733;</span> Activity</label>
+          </div>
         </div>
 
         <div class="field">
@@ -382,7 +431,15 @@
     fTime.value = displayStamp;
 
     const nameVal = document.getElementById('fName').value.trim();
-    const eventTypeVal = document.getElementById('fEventType').value;
+    const eventTypeEl = document.querySelector('input[name="eventTypeRadio"]:checked');
+    if (!eventTypeEl) {
+      errorMsg.textContent = 'Please select an event type (Council Meeting or Activity).';
+      errorMsg.style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Sign In Now';
+      return;
+    }
+    const eventTypeVal = eventTypeEl.value;
 
     const params = new URLSearchParams();
     params.append('eventType', eventTypeVal);
@@ -409,6 +466,7 @@
       confirmBlock.style.display = 'block';
     }catch(err){
       console.error('Submit error', err);
+      errorMsg.textContent = 'Could not send your sign-in. Please check your connection and try again.';
       errorMsg.style.display = 'block';
     }finally{
       submitBtn.disabled = false;
