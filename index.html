@@ -546,24 +546,45 @@
     // Verify the device's clock is roughly correct before allowing sign-in.
     // Compares against a real internet time source — if the device's date/time
     // was changed to fake an entry, this blocks the submission.
-    try{
-      const timeRes = await fetch('https://worldtimeapi.org/api/timezone/Asia/Manila');
-      const timeData = await timeRes.json();
-      const realTime = new Date(timeData.utc_datetime).getTime();
-      const deviceTime = Date.now();
-      const driftMs = Math.abs(realTime - deviceTime);
-      const MAX_DRIFT_MS = 2 * 60 * 1000; // 2 minutes tolerance
+    // Tries a primary time API, then a backup, before giving up.
+    async function getRealTimeMs(){
+      // Primary source
+      try{
+        const res = await fetch('https://timeapi.io/api/Time/current/zone?timeZone=Asia/Manila');
+        if (res.ok){
+          const data = await res.json();
+          return new Date(data.dateTime).getTime();
+        }
+      }catch(err){ /* fall through to backup */ }
 
-      if (driftMs > MAX_DRIFT_MS) {
-        showVerseModal();
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Sign In Now';
-        return;
-      }
-    }catch(timeErr){
-      console.error('Time check failed', timeErr);
-      errorMsg.textContent = 'Could not verify your device\'s time. Please check your internet connection and try again.';
+      // Backup source
+      try{
+        const res2 = await fetch('https://worldtimeapi.org/api/timezone/Asia/Manila');
+        if (res2.ok){
+          const data2 = await res2.json();
+          return new Date(data2.utc_datetime).getTime();
+        }
+      }catch(err){ /* both failed */ }
+
+      return null;
+    }
+
+    const realTime = await getRealTimeMs();
+
+    if (realTime === null){
+      errorMsg.textContent = 'Could not verify the current time. Please check your internet connection and try again.';
       errorMsg.style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Sign In Now';
+      return;
+    }
+
+    const deviceTime = Date.now();
+    const driftMs = Math.abs(realTime - deviceTime);
+    const MAX_DRIFT_MS = 2 * 60 * 1000; // 2 minutes tolerance
+
+    if (driftMs > MAX_DRIFT_MS) {
+      showVerseModal();
       submitBtn.disabled = false;
       submitBtn.textContent = 'Sign In Now';
       return;
